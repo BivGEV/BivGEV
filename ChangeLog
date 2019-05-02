@@ -1,0 +1,6 @@
+version 0.2
+- BivGEV() function include the option to estimate Sample Selection models
+
+version 0.1
+- BivGEV() function to estimate a Bivariate Generalised Extreme Value Model
+- Initial release of BivGEV 

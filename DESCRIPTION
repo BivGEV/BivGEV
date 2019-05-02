@@ -1,0 +1,18 @@
+Package: BivGEV
+Version: 0.2.0
+Title: Bivariate Generalised Extreme Value Model
+Description: Package for fitting Bivariate Generalised Extreme Value Models. 
+Author: Raffaella Calabrese <raffaella.calabrese@ed.ac.uk>, Silvia Angela Osmetti <silvia.osmetti@unicatt.it>, and Luca Zanin <luca.zanin@studio.unibo.it>
+Maintainer: Luca Zanin <luca.zanin@studio.unibo.it>
+Depends: R (>= 3.2.1), GJRM (>= 0.2)
+Imports: trust, VineCopula, VGAM, magic, survey, graphics, stats, data.table,
+         utils, grDevices, matrixStats, mnormt, gamlss.dist, gmp, Rmpfr,
+         bgeva, base, mgcv, trustOptim, evd, copula, matrixcalc, numDeriv
+License: GPL (>= 2)
+Repository: GitHUB
+LazyLoad: yes
+NeedsCompilation: no
+Packaged: 2019-04-30 15:07:24 UTC; GM
+Date/Publication: 2019-04-30 15:07:24 UTC
+
+

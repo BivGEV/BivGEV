@@ -1,0 +1,40 @@
+export(BivGEV,
+BivGEVOptim,
+BivGEVOptimSS,
+BivGEV.fit,
+BivGEVFit.post,
+diagnostics,
+logLik.BivGEV,
+work.fit,
+predict.BivGEV,
+print.summary.BivGEV,
+summary.BivGEV,
+train.test)
+
+
+import(bgeva)
+importFrom(Rmpfr,getPrec,mpfr,pmax)
+importFrom(mnormt, pmnorm)
+importFrom(stats, qt, dpois, qpois, qlogis, plogis, dgamma, dlnorm, dlogis, dnorm, density, cor, coef, as.formula, aggregate.data.frame, integrate, 
+           model.matrix, na.omit, na.pass, pbinom, pchisq, pgamma, plnorm, pnorm, printCoefmat,
+           qnorm, qqnorm, quantile, residuals, rnorm, sd, uniroot, update, var, weighted.mean, dbeta, pbeta,
+           ks.test, shapiro.test, runif, update.formula, qqplot, .checkMFClasses, delete.response,
+           model.frame, model.offset, napredict, predict, reformulate, termplot, BIC , AIC, logLik)
+importFrom(utils, getFromNamespace)
+importFrom(magic, adiag)
+importFrom(survey, svyrecvar, twophasevar, twophase2var, svyCprod)
+import(trust)
+importFrom(VGAM,pbinorm,dbinorm)
+importFrom(mgcv,interpret.gam,magic,magic.post.proc,predict.gam)
+importFrom(VineCopula, BiCopHfunc1, BiCopHfunc2, BiCopHfuncDeriv, BiCopCDF, BiCopTau2Par, BiCopPar2Tau, BiCopPDF, BiCopDeriv, BiCopDeriv2, BiCopHfuncDeriv2)
+importFrom(copula, tau, plackettCopula) 
+importFrom(matrixStats, rowQuantiles, colQuantiles, colWeightedMeans)
+importFrom(GJRM,BiCDF, copgHs, teta.tr, BCDF, mm, rMVN)
+importFrom(utils, getFromNamespace)
+importFrom(data.table, setDT)
+
+
+S3method(summary, BivGEV)
+S3method(print, summary.BivGEV)
+S3method(logLik, BivGEV)
+S3method(predict, BivGEV)
