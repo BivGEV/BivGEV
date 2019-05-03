@@ -2,7 +2,7 @@
 \alias{logLik.BivGEV}
 
 \title{
-The function extract the log-likelihood for a BivGEV model
+Function extract the log-likelihood for a BivGEV model
 }
 \description{
 The function extract the log-likelihood for a \code{BivGEV} model.  

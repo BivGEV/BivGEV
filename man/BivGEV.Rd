@@ -96,7 +96,6 @@ Some issues of convergence may occur because some combinations of \emph{tau.eq1}
 \examples{
 
 library(BivGEV)
-library(VineCopula)
 
 #################################################################
 ########### Bivariate Generalised Extreme Value Model ########### 

@@ -1,7 +1,7 @@
 \name{BivGEVOptim}
 \alias{BivGEVOptim}
 \title{
-Internal function for optimization when estimating joint imbalanced binary margins
+Optimization when estimating joint imbalanced binary margins
 }
 \description{
 Internal function for optimization when estimating joint imbalanced binary margins. \code{BivGEVOptim} function is a wrapper from \code{bprobgHs()} in \code{GJRM}.
