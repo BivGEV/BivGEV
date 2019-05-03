@@ -2,7 +2,7 @@
 \alias{BivGEVFit.post}
 
 \title{
-Function for computing post estimation quantities
+This is a function for computing post estimation quantities (internal function)
 }
 \description{
 Internal function for computing post estimation quantities. \code{BivGEVFit.post} function is a wrapper from \code{SemiParBIV.fit.post()} in \code{GJRM}.

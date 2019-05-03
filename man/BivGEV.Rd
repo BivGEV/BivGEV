@@ -5,7 +5,7 @@
 Bivariate Generalised Extreme Value Model
 }
 \description{
-BivGEV funcion is a wrapper from \code{gjrm()} in \code{GJRM}. It fits joint models with imbalanced binary margins.
+BivGEV function is a wrapper from \code{gjrm()} in \code{GJRM}. It fits joint models with imbalanced binary margins.
 
 }
 \usage{
