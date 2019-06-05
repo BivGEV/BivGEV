@@ -26,8 +26,8 @@ BivGEVOptimSS <- function(start.v, VC, respvec){
   .e11 <- 1 + eta1 * tau.eq1
   .e21 <- 1/tau.eq1
   d.n1 <- exp(-(.e11)^-(.e21))/(.e11)^(1 + .e21)
-  #d.n1 <- exp(-(1 + tau.eq1 * eta1)^-(1/tau.eq1))/(1 + tau.eq1 * eta1)^(1 + 1/tau.eq1)
   d.n1 <- ifelse(d.n1 < epsilon, epsilon, d.n1)
+
   p2 <- exp(-(1 + tau.eq2 * (eta2))^(-1/tau.eq2))
   p2 <- ifelse(p2 < epsilon, epsilon, p2)
   p2 <- ifelse(p2 > max.p, max.p, p2)
@@ -36,7 +36,6 @@ BivGEVOptimSS <- function(start.v, VC, respvec){
   .e12 <- 1 + eta2 * tau.eq2
   .e22 <- 1/tau.eq2
   d.n2 <- exp(-(.e12)^-(.e22))/(.e12)^(1 + .e22)
-  #d.n2 <- exp(-(1 + tau.eq2 * eta2)^-(1/tau.eq2))/(1 + tau.eq2 * eta2)^(1 + 1/tau.eq2)
   d.n2 <- ifelse(d.n2 < epsilon, epsilon, d.n2)
   
   
@@ -48,9 +47,9 @@ BivGEVOptimSS <- function(start.v, VC, respvec){
   
   
   .e5 <- 1/tau.eq2
-  .e6 <- 1 + .e1     
+  .e6 <- 1 + .e5     
   .e7 <- 1 + eta2 * tau.eq2
-  .e8 <- 2 * .e2     
+  .e8 <- 2 * .e6     
   der2p.dereta2 <- (1/.e7^.e8 - tau.eq2 * .e6 * .e7^(.e5 - .e8)) * exp(-.e7^-.e5)
   
   
@@ -147,6 +146,27 @@ BivGEVOptimSS <- function(start.v, VC, respvec){
                                         respvec$y1.cy2*(bit2.th2*p10-(-c.copula.theta)^2)/p10^2 )
   
   
+  
+  #################################
+  if(0){
+  criteria <- c(NaN, NA, Inf, -Inf)
+  no.good <- apply(apply(cbind(l.par[VC$inde], dl.dbe1[VC$inde], dl.dbe2, dl.drho,d2l.be1.be1[VC$inde],d2l.be2.be2, 
+                               d2l.be1.be2,d2l.be1.rho,d2l.be2.rho,d2l.rho.rho), c(1, 2), `%in%`, criteria), 1, any)
+  good <- no.good == FALSE
+  l.par <- l.par[good]
+  dl.dbe1 <- dl.dbe1[good]
+  dl.dbe2 <- dl.dbe2[good]
+  dl.drho <- dl.drho[good]
+  d2l.be1.be1 <- d2l.be1.be1[good]
+  d2l.be2.be2 <- d2l.be2.be2[good]
+  d2l.be1.be2 <- d2l.be1.be2[good]
+  d2l.be1.rho <- d2l.be1.rho[good]
+  d2l.be2.rho <- d2l.be2.rho[good]
+  d2l.rho.rho <- d2l.rho.rho[good]
+  VC$X1 <- as.matrix(VC$X1)
+  VC$X2 <- as.matrix(VC$X2)}
+  
+  
   be1.be1 <- crossprod(VC$X1*c(d2l.be1.be1),VC$X1)
   be2.be2 <- crossprod(VC$X2*c(d2l.be2.be2),VC$X2)
   be1.be2 <- crossprod(VC$X1[VC$inde,]*c(d2l.be1.be2),VC$X2)
@@ -176,7 +196,7 @@ dl.dbe2t[VC$inde]  <- dl.dbe2	; dl.dbe2  <- dl.dbe2t
 dl.drhot[VC$inde]  <- dl.drho	; dl.drho  <- dl.drhot
 
 
-list(value=res, gradient=G, hessian=H, S.h=S.h, S.h1=S.h1, S.h2=S.h2, l.par=l.par,
+list(value=res, gradient=G, hessian=H, S.h=S.h, S.h1=S.h1, S.h2=S.h2, l=S.res, l.par=l.par,
      p11=p11, p10=p10, p0=p0, p1=p1, eta1=eta1, eta2=eta2, etad=etad,
      dl.dbe1=dl.dbe1, dl.dbe2=dl.dbe2, dl.drho=dl.drho, BivD=VC$BivD)     
 

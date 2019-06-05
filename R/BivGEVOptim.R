@@ -25,6 +25,7 @@ cp1 <- 1 - p1
 .e21 <- 1/tau.eq1
 d.n1 <- exp(-(.e11)^-(.e21))/(.e11)^(1 + .e21)
 d.n1 <- ifelse(d.n1 < epsilon, epsilon, d.n1)
+
 p2 <- exp(-(1 + tau.eq2 * (eta2))^(-1/tau.eq2))
 p2 <- ifelse(p2 < epsilon, epsilon, p2)
 p2 <- ifelse(p2 > max.p, max.p, p2)
@@ -42,9 +43,9 @@ d.n2 <- ifelse(d.n2 < epsilon, epsilon, d.n2)
 der2p.dereta1 <- (1/.e3^.e4 - tau.eq1 * .e2 * .e3^(.e1 - .e4)) * exp(-.e3^-.e1)
 
 .e5 <- 1/tau.eq2
-.e6 <- 1 + .e1
+.e6 <- 1 + .e5
 .e7 <- 1 + eta2 * tau.eq2
-.e8 <- 2 * .e2
+.e8 <- 2 * .e6
 der2p.dereta2 <- (1/.e7^.e8 - tau.eq2 * .e6 * .e7^(.e5 - .e8)) * exp(-.e7^-.e5)
 
 
@@ -159,24 +160,24 @@ dH <- copgHs(p1, p2, eta1 = NULL, eta2 = NULL, teta, teta.st,
 
         #################################
    
-
-    criteria <- c(NaN, NA, Inf, -Inf)
-    no.good <- apply(apply(cbind(l.par, dl.dbe1, dl.dbe2, dl.drho,
-   d2l.be1.be1,d2l.be2.be2, d2l.be1.be2,d2l.be1.rho,d2l.be2.rho,d2l.rho.rho),
+        if(0){
+        criteria <- c(NaN, NA, Inf, -Inf)
+        no.good <- apply(apply(cbind(l.par, dl.dbe1, dl.dbe2, dl.drho,
+        d2l.be1.be1,d2l.be2.be2, d2l.be1.be2,d2l.be1.rho,d2l.be2.rho,d2l.rho.rho),
         c(1, 2), `%in%`, criteria), 1, any)
-    good <- no.good == FALSE
-    l.par <- l.par[good]
-    dl.dbe1 <- dl.dbe1[good]
-    dl.dbe2 <- dl.dbe2[good]
-    dl.drho <- dl.drho[good]
-    d2l.be1.be1 <- d2l.be1.be1[good]
-    d2l.be2.be2 <- d2l.be2.be2[good]
-    d2l.be1.be2 <- d2l.be1.be2[good]
-    d2l.be1.rho <- d2l.be1.rho[good]
-    d2l.be2.rho <- d2l.be2.rho[good]
-    d2l.rho.rho <- d2l.rho.rho[good]
-    VC$X1 <- as.matrix(VC$X1[good, ])
-    VC$X2 <- as.matrix(VC$X2[good, ])
+        good <- no.good == FALSE
+        l.par <- l.par[good]
+        dl.dbe1 <- dl.dbe1[good]
+        dl.dbe2 <- dl.dbe2[good]
+        dl.drho <- dl.drho[good]
+        d2l.be1.be1 <- d2l.be1.be1[good]
+        d2l.be2.be2 <- d2l.be2.be2[good]
+        d2l.be1.be2 <- d2l.be1.be2[good]
+        d2l.be1.rho <- d2l.be1.rho[good]
+        d2l.be2.rho <- d2l.be2.rho[good]
+        d2l.rho.rho <- d2l.rho.rho[good]
+        VC$X1 <- as.matrix(VC$X1)
+        VC$X2 <- as.matrix(VC$X2)}
 
 
         be1.be1 <- crossprod(VC$X1 * c(d2l.be1.be1), VC$X1)

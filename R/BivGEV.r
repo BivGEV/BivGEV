@@ -25,6 +25,7 @@ sccn <- c("C90", "C270", "J90", "J270", "G90", "G270")
 if (!is.list(formula))
     stop("You must specify a list of equations.")
 
+cl <- match.call()
 mf <- match.call(expand.dots = FALSE)
 cha2 <- as.character(formula[[2]][2])
 ig <- interpret.gam(formula)
@@ -60,12 +61,10 @@ if(Model=="BivGEVss"){                        ####### SAMPLE SELECTION
 }
 
 
-if (is.null(weights)) {
-    weights <- rep(1, dim(data)[1])
-    data$weights <- weights
-    names(data)[length(names(data))] <- "(weights)"
- }
-else weights <- data[, "(weights)"]
+if(!("(weights)" %in% names(data))) {weights <- rep(1,dim(data)[1]) 
+data$weights <- weights
+names(data)[length(names(data))] <- "(weights)"} else weights <- data[,"(weights)"] 
+
 
 formula.eq1 <- formula[[1]]
 formula.eq2 <- formula[[2]]
@@ -127,8 +126,17 @@ eta2 <- X2%*%beta2
 p1<- exp(-( 1 + tau.eq1*(X1%*%beta1))^(-1/tau.eq1))
 p2<- exp(-( 1 + tau.eq2*(X2%*%beta2))^(-1/tau.eq2))
 
-        res1 <- p1
-        res2 <- p2
+y1m    <- mod1$gam.fit$y
+y1star <- ifelse(y1m==1,1,-1)
+res.dev1 <-  y1star * (sqrt(-2*(y1m*(log(p1)) + (1-y1m)*(log(1-p1)))))
+
+y2m    <- mod2$gam.fit$y
+y2star <- ifelse(y1m==1,1,-1)
+res.dev2 <-  y2star * (sqrt(-2*(y2m*(log(p2)) + (1-y2m)*(log(1-p2)))))
+
+
+        res1 <- res.dev1
+        res2 <- res.dev2
         ass.s <- cor(res1, res2, method = "kendall")
         ss <- sign(ass.s)
         ass.s <- ss*ifelse(abs(ass.s) > 0.9, 0.9, abs(ass.s))      
@@ -152,11 +160,6 @@ if (Model == "BivGEVss") {
     mod2.s <- eval(substitute(bgeva(eq2, tau = tau.eq2, data = data,  Hes=T)))
     X2s <- mod2.s$X    
     
-    #mod.test <- eval(substitute(gam(formula.eq2, family=binomial(link = "probit"), data = data[inde,])))
-    #X2s <- try(predict.gam(mod.test, newdata = data[, -dim(data)[2]], type = "lpmatrix"), silent = TRUE)
-    #if (class(X2s) == "try-error") 
-    #  stop("Check that the numbers of factor variables' levels\nin the selected sample are the same as those in the complete dataset.")    
-    
 #####################
 X2     <- mod2$X
 X2.d2  <- dim(X2)[2]
@@ -166,14 +169,20 @@ cy1    <- (1-y1)
 y1.y2  <- y1[inde]*y2
 y1.cy2 <- y1[inde]*(1-y2)
 ######################
-
+epsilon <- 1e-07
+max.p <- 0.9999999
 
 formula.eq2imr <- update.formula(formula.eq2, ~. + imr)
 beta1 <- c(coef(mod1))
 eta1 <- X1%*%beta1
 p.s1 <- exp(-( 1 + tau.eq1*(X1%*%beta1))^(-1/tau.eq1))
-      
-imr <- data$imr <- dnorm(p.s1)/pnorm(p.s1)
+p.s1 <- ifelse(p.s1 < epsilon, epsilon, p.s1)
+p.s1 <- ifelse(p.s1 > max.p, max.p, p.s1)
+#p.s1 <- ifelse(is.na(p.s1), quantile(p.s1, c(0.5), na.rm=T), p.s1)
+
+data$imr <- dnorm(p.s1)/pnorm(p.s1)
+data$imr <- ifelse(is.na(data$imr), quantile(data$imr, c(0.5), na.rm=T), data$imr)
+imr <- data$imr
       
 mod2.1 <- eval(substitute(bgeva(formula.eq2imr, tau = tau.eq2, data = data[inde,],Hes=T)))
       
@@ -183,10 +192,14 @@ c.mod2 <- coef(mod2.1)[-pimr]
 beta2s <- c(coef(mod2.1))
 eta2.s <- mod2.1$X%*%beta2s
 p.s2 <- exp(-( 1 + tau.eq2*(eta2.s))^(-1/tau.eq2))
+p.s2 <- ifelse(p.s2 < epsilon, epsilon, p.s2)
+p.s2 <- ifelse(p.s2 > max.p, max.p, p.s2)
+#p.s2 <- ifelse(is.na(p.s2), quantile(p.s2, c(0.5), na.rm=T), p.s2)
 
 y2.1    <- mod2.1$gam.fit$y
 ystar <- ifelse(y2.1==1,1,-1)
 rr2 <-  ystar * (sqrt(-2*(y2.1*(log(p.s2)) + (1-y2.1)*(log(1-p.s2)))))
+#rr2 <- ifelse(is.na(rr2) | rr2==-Inf | rr2==Inf, quantile(rr2, c(0.5), na.rm=T), rr2)
 
 sia <- sqrt( (mean(rr2)^2) + mean(imr[inde]*(imr[inde]+p.s1[inde]))*mod2.1$coef["imr"]^2)[[1]]
 co <- (mod2.1$coef["imr"]/sia)[[1]]
@@ -201,9 +214,9 @@ ass.s <- ss*ifelse(abs(ass.s) > 0.2, 0.2, abs(ass.s))
         if (BivD %in% sccn)
         ass.s <- -abs(ass.s)
         if (!(BivD %in% c("AMH", "FGM")))
-        i.rho <- BiCopTau2Par(family = nCa, tau = ass.s)
+        i.rho <- BiCopTau2Par(family = nCa, tau = ass.s, check.taus=F)
         if (BivD %in% c("AMH", "FGM"))
-        i.rho <- BiCopTau2Par(family = 1, tau = ass.s)
+        i.rho <- BiCopTau2Par(family = 1, tau = ass.s, check.taus=F)
         if (BivD %in% c("N", "AMH", "FGM"))
         i.rho <- atanh(i.rho)
         if (BivD == "F")
@@ -242,18 +255,11 @@ VC <- list(X1 = X1, X2 = X2,
            nC = nC,
            n = n,
            inde = inde,
-           #dof = dof,
-           #extra.regI = extra.regI,
            parscale = parscale,
            tau.eq1=tau.eq1,
            tau.eq2=tau.eq2,
-          # theta.fx = theta.fx,
-          # l.sp1=l.sp1,
-          # l.sp2=l.sp2,
-          # l.sp3=l.sp3,
            nCa = nCa,
            gc.m = gc.m,
-          # fp = fp,
            Model = Model)
 
 if (Model == "BivGEV")   func.opt <- BivGEVOptim

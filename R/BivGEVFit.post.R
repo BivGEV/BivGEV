@@ -79,14 +79,13 @@ BivGEVFit.post <- function (BivGEVFit, Model, VC, mod1, mod2)
     p2 <- ifelse(p2 < epsilon, epsilon, p2)
     p2 <- ifelse(p2 > max.p, max.p, p2)  
 
-    p11 <- BiCDF(p1, p2, VC$nC, theta) #, VC$dof)
+    p11 <- BiCDF(p1, p2, VC$nC, theta)
     BivGEVFit$fit$p10 <- p1 - p11
     BivGEVFit$fit$p11 <- p11
     BivGEVFit$fit$p00 <- (1 - p2) - (p1 - p11)
     BivGEVFit$fit$p01 <- p2 - p11
     BivGEVFit$fit$p1 <- p1
     BivGEVFit$fit$p2 <- p2
-    
   }
   
  
