@@ -76,13 +76,13 @@ The function returns an object of class BivGEV.
 \references{
 Calabrese R., Osmetti S.A., Zanin L. (2019). A joint scoring model for peer-to-peer and traditional lending: a bivariate model with copula dependence. \emph{Submitted to the Journal of the Royal Statistical Society Serie A} 
 
-%Marra G. and Radice R. (2019). \emph{GJRM: Generalised Joint Regression Modelling}. R package Version: 0.2
+Marra G. and Radice R. (2019). \emph{GJRM: Generalised Joint Regression Modelling}. R package Version: 0.2
 }
 
 \author{
 Raffaella Calabrese - \email{raffaella.calabrese@ed.ac.uk};
 Silvia Angela Osmetti - \email{silvia.osmetti@unicatt.it}; 
-Luca Zanin - \email{luca.zanin@studio.unibo.it};
+Maintainer: Luca Zanin - \email{luca.zanin@studio.unibo.it};
 }
 
 \note{
@@ -95,7 +95,14 @@ Some issues of convergence may occur because some combinations of \emph{tau.eq1}
 
 \examples{
 
+### library(devtools)
+### Install the BivGEV package from the Github repository ###
+### install_github("BivGEV/BivGEV")
+ 
 library(BivGEV)
+library(hmeasure)
+library(evd)
+library(VineCopula)
 
 #################################################################
 ########### Bivariate Generalised Extreme Value Model ########### 
@@ -107,23 +114,25 @@ library(BivGEV)
 
 set.seed(0)
 
-n      <- 5000  # Sample size
-family <- 1     # Gaussian copula
-lambda <- 0.70  # Parameter of the copula
+set.theta <- BiCopTau2Par(14, 0.5, check.taus = TRUE)
 
-U  <- BiCopSim(n, family, lambda)
-ER <- cbind(qnorm(U[,1]),qnorm(U[,2]))
+n      <- 5000      # Sample size
+family <- 14        # Survival Gumbel copula
+theta  <- set.theta # Copula parameter
+
+U  <- BiCopSim(n, family, theta)
+ER <- cbind(qgev(1-U[,1], shape=-0.3),qgev(1-U[,2],shape=-0.3))
 
 x <- rnorm(n, 1.2, 0.25)
 
-par.eq1 <- c(-1.8, 0.4)
-par.eq2 <- c(-2.3, 0.8)
+par.eq1 <- c(-1.7, 0.4)
+par.eq2 <- c(-2.2, 0.8)
 
 eta1 <- par.eq1[1] + par.eq1[2]*x 
 eta2 <- par.eq2[1] + par.eq2[2]*x
 
-y1 <- ifelse(eta1 + ER[, 1] > 0, 1,0) 
-y2 <- ifelse(eta2 + ER[, 2] > 0, 1,0)
+y1 <- ifelse(eta1 - ER[, 1] > 0, 1,0) 
+y2 <- ifelse(eta2 - ER[, 2] > 0, 1,0)
 
 dataSim <- data.frame(y1,y2,x)
 
@@ -131,57 +140,22 @@ summary(dataSim$y1)
 summary(dataSim$y2)
 
 
-######################################
-#### Model estimation: Example 1  ####
-######################################
+##################################################################
+#### Example 1:                                               ####
+#### Estimation of a BivGEV with Gumbel Copula                ####
+##################################################################
 
 #### Fixed tau.eq1 and tau.eq2
-tau.eq1 <- -0.325
-tau.eq2 <- -0.325
+tau1 <- -0.30
+tau2 <- -0.30
 
 eq1 <- y1 ~ x 
 eq2 <- y2 ~ x
 
-mod <- BivGEV(list(eq1,eq2), data = dataSim, BivD = "N", 
-       Model = "BivGEV", tau.eq1 = tau.eq1, tau.eq2 = tau.eq2)
+mod <- BivGEV(list(eq1,eq2), data = dataSim, BivD = "G0", 
+       Model = "BivGEV", tau.eq1 = tau1, tau.eq2 = tau2)
 summary(mod)
 diagnostics(mod)
-
-#### predict marginals and Joint probabilities from the joint model
-dataSim$pred.joint <- predict(mod, dataSim, type = "Biv")
-
-#### predict marginals probabilities from the univariate models
-dataSim$pred.naive <- predict(mod, dataSim, type = "naive")
-
-
-
-######################################
-#### Model estimation: Example 2  ####
-######################################
-
-%tau.eq1 <- seq(-0.45, 0.001, 0.05)
-%tau.eq2 <- seq(-0.45, 0.001, 0.05)
-%tau.eq1 <- ifelse(tau.eq1==0,0.001,tau.eq1)
-%tau.eq2 <- ifelse(tau.eq2==0,0.001,tau.eq2)
-
-%tau     <- expand.grid(tau.eq1 = tau.eq1, tau.eq2 = tau.eq2)
-%tau$N.combinations <- 1:nrow(tau)
-
-
-
-%out.N   <- list()
-
-
-%# Gaussin Copula
-%for (i in tau$N.combinations){
-%  tryCatch({
-%  tau.eq1 <-  tau[i,1]
-% tau.eq2 <-  tau[i,2]
-%    out.N[[i]]<- BivGEV(list(eq1,eq2), data = dataSim, BivD = "N", Model = "BivGEV", tau.eq1 = tau.eq1, tau.eq2 = tau.eq2)
-%  }, error=function(e){paste("Tau combinations not supported")}
-%  ,silent=FALSE)
-%}
-
 
 
   }

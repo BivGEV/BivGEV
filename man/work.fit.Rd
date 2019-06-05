@@ -14,7 +14,7 @@ Internal Function. \code{work.fit} function is a wrapper from \code{working.comp
 \author{
 Raffaella Calabrese - \email{raffaella.calabrese@ed.ac.uk};
 Silvia Angela Osmetti - \email{silvia.osmetti@unicatt.it}; 
-Luca Zanin - \email{luca.zanin@studio.unibo.it};
+Mantainer: Luca Zanin - \email{luca.zanin@studio.unibo.it};
 }
 
 \keyword{Bivariate Generalised Extreme Value Model}
