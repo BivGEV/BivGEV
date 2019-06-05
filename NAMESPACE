@@ -12,6 +12,9 @@ summary.BivGEV,
 train.test)
 
 
+import(devtools)
+import(evd)
+import(hmeasure)
 import(bgeva)
 importFrom(Rmpfr,getPrec,mpfr,pmax)
 importFrom(mnormt, pmnorm)
@@ -20,7 +23,7 @@ importFrom(stats, qt, dpois, qpois, qlogis, plogis, dgamma, dlnorm, dlogis, dnor
            qnorm, qqnorm, quantile, residuals, rnorm, sd, uniroot, update, var, weighted.mean, dbeta, pbeta,
            ks.test, shapiro.test, runif, update.formula, qqplot, .checkMFClasses, delete.response,
            model.frame, model.offset, napredict, predict, reformulate, termplot, BIC , AIC, logLik)
-importFrom(utils, getFromNamespace)
+importFrom(utils, getFromNamespace, write.csv)
 importFrom(magic, adiag)
 importFrom(survey, svyrecvar, twophasevar, twophase2var, svyCprod)
 import(trust)
