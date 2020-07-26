@@ -19,7 +19,7 @@ library(VineCopula)
 library(mgcv)
  ```
  
-##  Bivariate Generalised Extreme Value Model with a Survival Gumbel copula
+##  Bivariate Generalised Extreme Value Model 
 
 Data Generating Process
  ``` r
@@ -54,7 +54,7 @@ tau1 <- -0.30 # setting tau parameter for eq. 1
 tau2 <- -0.30 # setting tau parameter for eq. 2
 ```
 
-Model's estimation
+Model's estimation with a Survival Gumbel copula
  ``` r
 eq1 <- y1 ~ x 
 eq2 <- y2 ~ x
@@ -65,6 +65,6 @@ diagnostics(out1)
 ```
 
 
-##  Bivariate Generalised Extreme Value models in the presence of sample selection
+##  Bivariate Generalised Extreme Value model in the presence of sample selection
 
 
