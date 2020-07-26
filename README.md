@@ -5,6 +5,8 @@ The `BivGEV` package allows the estimation of the following models:
 - Bivariate Generalised Extreme Value models
 - Bivariate Generalised Extreme Value models in the presence of sample selection
 
+The package allow the estimation of models considering differents copula, including Gaussian, Clayton, Gumbel, Joe, and Frank
+
 ## Installation
 
 You can install the released version of BivGEV from [GitHub](https://github.com/BivGEV/BivGEV) with:
@@ -48,7 +50,7 @@ y2 <- ifelse(eta2 - ER[, 2] > 0, 1,0)
 dataSim <- data.frame(y1,y2,x)
 ```
 
-Tuning parameter of GEV distribution
+Setting the tau parameter 
  ``` r
 tau1 <- -0.30 # setting tau parameter for eq. 1
 tau2 <- -0.30 # setting tau parameter for eq. 2
