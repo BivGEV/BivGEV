@@ -5,7 +5,7 @@ The `BivGEV` package allows the estimation of the following models:
 - Bivariate Generalised Extreme Value models
 - Bivariate Generalised Extreme Value models in the presence of sample selection
 
-The package allow the estimation of models considering differents copula, including Gaussian, Clayton, Gumbel, Joe, and Frank
+The package allows the estimation of models considering differents copula, including Gaussian, Clayton, Gumbel, Joe, and Frank
 
 ## Installation
 
