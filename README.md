@@ -14,7 +14,10 @@ You can install the released version of BivGEV from [GitHub](https://github.com/
 ``` r
 library(devtools)
 install_github("BivGEV/BivGEV")  
+ ```
 
+Load the libraries
+``` r
 library(BivGEV)
 library(evd)
 library(VineCopula)
