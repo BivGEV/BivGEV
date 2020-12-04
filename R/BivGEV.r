@@ -260,7 +260,8 @@ VC <- list(X1 = X1, X2 = X2,
            tau.eq2=tau.eq2,
            nCa = nCa,
            gc.m = gc.m,
-           Model = Model)
+           Model = Model,
+           min.dn = min.dn, min.pr = min.pr, max.pr = max.pr)
 
 if (Model == "BivGEV")   func.opt <- BivGEVOptim
 if (Model == "SampleSelGEV") func.opt <- BivGEVOptimSS
