@@ -8,7 +8,7 @@ This function produces predictions for univariate and joint GEV models.
 The function takes the fitted \code{BivGEV} object and produces univariate and joint predicted probabilities for a set of values (new or used for the training) of the model.
 }
 \usage{
-\method{predict}{BivGEV}(object, newdata, type = "joint")
+\method{predict}{BivGEV}(object, newdata, type = "joint", ...)
 }
 
 \arguments{
@@ -21,6 +21,7 @@ The data frame with the covariates of the model.
   \item{type}{
 The possible values are "naive" (univariate estimates) and "joint" (bivariate estimates).
 }
+\item{...}{Other arguments.}
 }
 \details{
 \itemize{

@@ -6,10 +6,10 @@
 The function return some summaries from the \code{BivGEV} object.
 }
 \description{
-The function use a fitted \code{BivGEV} object to return some summaries informations. \code{summary.BivGEV} funcion is a wrapper from \code{summary.gjrm} in \code{GJRM}.
+The function use a fitted \code{BivGEV} object to return some summaries informations. %\code{summary.BivGEV} funcion is a wrapper from \code{summary.gjrm} in \code{GJRM}.
 }
 \usage{
-\method{summary}{BivGEV}(object, n.sim = 1000, prob.lev = 0.05)
+\method{summary}{BivGEV}(object, n.sim = 1000, prob.lev = 0.05, ...)
 }
 
 \arguments{
@@ -22,6 +22,7 @@ The simulated coefficient vectors from the posterior distribution of the estimat
   \item{prob.lev}{
 Probability of the posterior distribution used for interval calculations.
 }
+\item{...}{Other arguments.}
 }
 
 \author{

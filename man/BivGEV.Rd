@@ -5,7 +5,7 @@
 Bivariate Generalised Extreme Value Model
 }
 \description{
-BivGEV function is a wrapper from \code{gjrm()} in \code{GJRM}. It fits joint models with imbalanced binary margins.
+BivGEV function is a wrapper function from \code{GJRM} R package. It fits joint models with imbalanced binary margins.
 
 }
 \usage{
@@ -22,7 +22,7 @@ The formula will be a list of two equations.
 The data frame that includes the variables of the model. 
 }
   \item{Model}{
-Possible choice are "BivGEV" (Bivariate Generalised Extreme Value) or "BivGEVss" (Bivariate Generalised Extreme Value for Sample Selection).
+Possible choice are "BivGEV" (Bivariate Generalised Extreme Value) or "SampleSelGEV" (Sample Selection Generalised Extreme Value).
 }
   \item{BivD}{
 The possible typologies of bivariate error distribution employed are "N" (Gaussian), "C0" (Clayton), "J0" (Joe), "G0" (Gumbel), or "F" (Frank). 
@@ -74,7 +74,9 @@ More details can be found in Calabrese, Osmetti and Zanin (2019).
 The function returns an object of class BivGEV.
 }
 \references{
-Calabrese R., Osmetti S.A., Zanin L. (2019). A joint scoring model for peer-to-peer and traditional lending: a bivariate model with copula dependence. \emph{Submitted to the Journal of the Royal Statistical Society Serie A} 
+Calabrese R., Osmetti S.A., Zanin L. (2019). A joint scoring model for peer-to-peer and traditional lending: a bivariate model with copula dependence. \emph{Journal of the Royal Statistical Society Serie A}, 182, 1163-1188 
+
+Calabrese R., Osmetti S.A., Zanin L. (2020). Sample selection bias in peer-to-peer lending market. 
 
 Marra G. and Radice R. (2019). \emph{GJRM: Generalised Joint Regression Modelling}. R package Version: 0.2
 }
@@ -100,9 +102,9 @@ Some issues of convergence may occur because some combinations of \emph{tau.eq1}
 ### install_github("BivGEV/BivGEV")
  
 library(BivGEV)
-library(hmeasure)
 library(evd)
 library(VineCopula)
+library(mgcv)
 
 #################################################################
 ########### Bivariate Generalised Extreme Value Model ########### 
@@ -116,7 +118,7 @@ set.seed(0)
 
 set.theta <- BiCopTau2Par(14, 0.5, check.taus = TRUE)
 
-n      <- 5000      # Sample size
+n      <- 10000      # Sample size
 family <- 14        # Survival Gumbel copula
 theta  <- set.theta # Copula parameter
 
@@ -136,10 +138,6 @@ y2 <- ifelse(eta2 - ER[, 2] > 0, 1,0)
 
 dataSim <- data.frame(y1,y2,x)
 
-summary(dataSim$y1)
-summary(dataSim$y2)
-
-
 ##################################################################
 #### Example 1:                                               ####
 #### Estimation of a BivGEV with Gumbel Copula                ####
@@ -152,11 +150,68 @@ tau2 <- -0.30
 eq1 <- y1 ~ x 
 eq2 <- y2 ~ x
 
-mod <- BivGEV(list(eq1,eq2), data = dataSim, BivD = "G0", 
+out1 <- BivGEV(list(eq1,eq2), data = dataSim, BivD = "G0", 
        Model = "BivGEV", tau.eq1 = tau1, tau.eq2 = tau2)
-summary(mod)
-diagnostics(mod)
+summary(out1)
+diagnostics(out1)
 
+
+
+
+
+
+########################################################################
+########### Sample selection Generalised Extreme Value Model ########### 
+########################################################################
+
+#################################
+#### Data Generating Process ####
+#################################
+
+set.seed(10)
+
+set.theta <- BiCopTau2Par(14, 0.5, check.taus = TRUE)
+
+n      <- 50000      # Sample size
+family <- 14         # Survival Gumbel copula
+theta  <- set.theta  # Copula parameter
+
+U  <- BiCopSim(n, family, theta)
+ER <- cbind(qgev(1-U[,1], shape=-0.30),qgev(1-U[,2],shape=-0.35))
+
+sigma       <- matrix(0.5,3, 3) 
+diag(sigma) <- 1
+covariance  <- rmvn(n, rep(0,3), sigma)
+covariance  <- pnorm(covariance)
+x1 <- covariance[,1]
+x2 <- covariance[,2]
+x3 <- covariance[,3]
+
+eta1 <-  -1.2 + 1.7*x1 - 0.9*x2 + 1.3*x3 
+eta2 <-  -1.7 + 1.3*x1 - 0.1*x2 
+
+ysel <-  ifelse(eta1 - ER[, 1] > 0,1,0)
+y    <-  ifelse(eta2 - ER[, 2] > 0,1,0)
+yobs <-  y*(ysel > 0)
+
+dataSim <- data.frame(ysel,yobs,x1,x2,x3)
+
+
+############################################################################
+#### Example 2:                                                         ####
+#### Estimation of a BivGEV Sample selection model with Gumbel Copula   ####
+############################################################################
+
+#### Fixed tau.eq1 and tau.eq2
+tau1 <- -0.30
+tau2 <- -0.35
+
+eq1 <- ysel ~ x1 + x2 + x3 
+eq2 <- yobs ~ x1 + x2
+
+out2 <- BivGEV(list(eq1,eq2), data = dataSim, BivD = "G0", 
+       Model = "SampleSelGEV", tau.eq1 = tau1, tau.eq2 = tau2)
+summary(out2)
 
   }
 

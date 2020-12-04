@@ -4,7 +4,7 @@
 This is a function of optimization when estimating joint imbalanced binary margins (internal function)
 }
 \description{
-Internal function for optimization when estimating joint imbalanced binary margins. \code{BivGEVOptim} function is a wrapper from \code{bprobgHs()} in \code{GJRM}.
+Internal function for optimization when estimating joint imbalanced binary margins. %\code{BivGEVOptim} function is a wrapper from \code{bprobgHs()} in \code{GJRM}.
 }
 
 \author{

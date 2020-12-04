@@ -5,7 +5,7 @@
 Internal Function
 }
 \description{
-Internal Function. \code{work.fit} function is a wrapper from \code{working.comp} in \code{GJRM}.
+Internal Function. %\code{work.fit} function is a wrapper from \code{working.comp} in \code{GJRM}.
 }
 %\usage{
 %work.fit(fit)

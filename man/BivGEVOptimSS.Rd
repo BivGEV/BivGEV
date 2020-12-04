@@ -5,7 +5,7 @@
 This is a function of optimization when estimating joint imbalanced binary margins in the presence of sample selection (internal function)
 }
 \description{
-Internal function for optimization when estimating joint imbalanced binary margins in the presence of sample selection. \code{BivGEVOptimSS} function is a wrapper from \code{bprobgHsSS()} in \code{GJRM}.
+Internal function for optimization when estimating joint imbalanced binary margins in the presence of sample selection. %\code{BivGEVOptimSS} function is a wrapper from \code{bprobgHsSS()} in \code{GJRM}.
 }
 
 \author{
