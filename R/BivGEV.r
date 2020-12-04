@@ -6,7 +6,7 @@
 
 BivGEV <- function(formula, data = list(), 
     Model = "BivGEV", BivD = "N", rinit = 1, rmax = 100, iterlim = 100, tolsp = 1e-07,
-    parscale, tau.eq1 = -0.25, tau.eq2= -0.25, gc.m=FALSE, max.pr = 0.999999)
+    parscale, tau.eq1 = -0.25, tau.eq2= -0.25, gc.m=FALSE, min.dn = 1e-40, min.pr = 1e-16, max.pr = 0.999999)
 {
 
 i.rho <- y1.y2 <- y1.cy2 <- cy1.y2 <- cy1.cy2 <- cy <- cy1 <- inde <- n.sel <- NULL  #q.mag <- sp
