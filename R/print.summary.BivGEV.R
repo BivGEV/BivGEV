@@ -4,8 +4,7 @@
 ###############################   print.summary.BivGEV     #################################
 ############################################################################################
 
-print.summary.BivGEV <- function (x, digits = max(3, getOption("digits") - 3), signif.stars = getOption("show.signif.stars"),
-    ...)
+print.summary.BivGEV <- function (x, digits = max(3, getOption("digits") - 3), signif.stars = getOption("show.signif.stars"),...)
 {
 
   if (x$BivD == "FGM") {
@@ -108,7 +107,7 @@ cat("\nn = ", x$n, cp, format(as.p, digits = decim), "(",
 }
 
 
-if (x$Model == "BivGEVss") {
+if (x$Model == "SampleSelGEV") {
       cat("\nn = ", x$n, n.sel, x$n.sel, cp, format(as.p, digits = decim), "(",
       format(CIrs[1], digits = decim), ",", format(CIrs[2],
        digits = decim), ")", ct, format(kt.p, digits = decim),

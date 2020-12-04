@@ -164,7 +164,8 @@ BivGEVOptimSS <- function(start.v, VC, respvec){
   d2l.be2.rho <- d2l.be2.rho[good]
   d2l.rho.rho <- d2l.rho.rho[good]
   VC$X1 <- as.matrix(VC$X1)
-  VC$X2 <- as.matrix(VC$X2)}
+  VC$X2 <- as.matrix(VC$X2) 
+ }
   
   
   be1.be1 <- crossprod(VC$X1*c(d2l.be1.be1),VC$X1)

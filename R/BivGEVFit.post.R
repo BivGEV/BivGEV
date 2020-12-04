@@ -5,7 +5,7 @@
 ##############################     BivGEV.fit.post      ########################################
 ################################################################################################
 
-BivGEVFit.post <- function (BivGEVFit, Model, VC, mod1, mod2) 
+BivGEVFit.post <- function(BivGEVFit, Model, VC, mod1, mod2) 
 {
 
   Ve <- X2s <- theta <- theta.a <- p1n <- p2n <- R <- NULL
@@ -44,7 +44,7 @@ BivGEVFit.post <- function (BivGEVFit, Model, VC, mod1, mod2)
   }
 
   
-  if (Model == "BivGEVss") {
+  if (Model == "SampleSelGEV") {
     BivGEVFit$fit$eta2 <- VC$X2s %*% BivGEVFit$fit$argument[(VC$X1.d2 + 1):(VC$X1.d2 + VC$X2.d2)]
     
     tau.eq1 <- VC$tau.eq1
@@ -69,7 +69,7 @@ BivGEVFit.post <- function (BivGEVFit, Model, VC, mod1, mod2)
   
   
   
-  if (Model == "BivGEVss") {
+  if (Model == "SampleSelGEV") {
   
     p1 <- exp(-(1 + tau.eq1 * (BivGEVFit$fit$eta1))^(-1/tau.eq1))
     p1 <- ifelse(p1 < epsilon, epsilon, p1)

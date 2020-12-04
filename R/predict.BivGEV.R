@@ -4,7 +4,7 @@
 ##########################           predict.BivGEV         ##############################
 ##########################################################################################
 
-predict.BivGEV <- function (object, newdata, type = "joint")
+predict.BivGEV <- function (object, newdata, type = "joint", ...)
 {
   
   if(type == "naive"){

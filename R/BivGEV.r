@@ -44,14 +44,14 @@ mf$Model <- mf$BivD <-  mf$rinit <- mf$rmax <- mf$iterlim <- mf$tolsp <- mf$gc.m
 mf$drop.unused.levels <- TRUE
 
 
-if(Model=="BivGEVss") mf$na.action <- na.pass   ####### SAMPLE SELECTION
+if(Model=="SampleSelGEV") mf$na.action <- na.pass   ####### SAMPLE SELECTION
 
 mf[[1]] <- as.name("model.frame")
 data    <- eval(mf, parent.frame())
 
 if(gc.m == TRUE) gc()
 
-if(Model=="BivGEVss"){                        ####### SAMPLE SELECTION
+if(Model=="SampleSelGEV"){                        ####### SAMPLE SELECTION
   data[is.na(data[, e1[1]]), e1[1]] <- 0
   indS <- data[, e1[1]]
   indS[is.na(indS)] <- 0
@@ -148,7 +148,7 @@ res.dev2 <-  y2star * (sqrt(-2*(y2m*(log(p2)) + (1-y2m)*(log(1-p2)))))
 # Equation 2 Sample Selection                                #
 ############################################################## 
 
-if (Model == "BivGEVss") {
+if (Model == "SampleSelGEV") {
     inde <- as.logical(y1)
     mod2 <- eval(substitute(bgeva(formula.eq2, tau = tau.eq2, data = data[inde,],  Hes=T)))
                  
@@ -231,7 +231,7 @@ ass.s <- ss*ifelse(abs(ass.s) > 0.2, 0.2, abs(ass.s))
 
 names(i.rho) <- "theta.star"
 if(Model == "BivGEV") start.v <- c(coef(mod1), coef(mod2), i.rho)
-if(Model == "BivGEVss") start.v <- c(coef(mod1), c.mod2, i.rho)
+if(Model == "SampleSelGEV") start.v <- c(coef(mod1), c.mod2, i.rho)
 
 
 if (missing(parscale))
@@ -263,7 +263,7 @@ VC <- list(X1 = X1, X2 = X2,
            Model = Model)
 
 if (Model == "BivGEV")   func.opt <- BivGEVOptim
-if (Model == "BivGEVss") func.opt <- BivGEVOptimSS
+if (Model == "SampleSelGEV") func.opt <- BivGEVOptimSS
 
 
 

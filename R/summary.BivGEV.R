@@ -3,7 +3,7 @@
 #################################   summary.BivGEV     #########################################
 ################################################################################################
 
-summary.BivGEV <- function (object, n.sim = 1000, prob.lev = 0.05)
+summary.BivGEV <- function (object, n.sim = 1000, prob.lev = 0.05, ...)
 {
   
   testStat <- getFromNamespace("testStat", "mgcv")
