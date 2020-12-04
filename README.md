@@ -72,5 +72,49 @@ diagnostics(out1)
 
 ##  Bivariate Generalised Extreme Value model in the presence of sample selection
 
+Data Generating Process
+ ``` r
+set.seed(10)
 
+set.theta <- BiCopTau2Par(14, 0.5, check.taus = TRUE)
 
+n      <- 50000      # Sample size
+family <- 14         # Survival Gumbel copula
+theta  <- set.theta  # Copula parameter
+
+U  <- BiCopSim(n, family, theta)
+ER <- cbind(qgev(1-U[,1], shape=-0.30),qgev(1-U[,2],shape=-0.35))
+
+sigma       <- matrix(0.5,3, 3) 
+diag(sigma) <- 1
+covariance  <- rmvn(n, rep(0,3), sigma)
+covariance  <- pnorm(covariance)
+x1 <- covariance[,1]
+x2 <- covariance[,2]
+x3 <- covariance[,3]
+
+eta1 <-  -1.2 + 1.7*x1 - 0.9*x2 + 1.3*x3 
+eta2 <-  -1.7 + 1.3*x1 - 0.1*x2 
+
+ysel <-  ifelse(eta1 - ER[, 1] > 0,1,0)
+y    <-  ifelse(eta2 - ER[, 2] > 0,1,0)
+yobs <-  y*(ysel > 0)
+
+dataSim <- data.frame(ysel,yobs,x1,x2,x3)
+```
+
+Setting the tau parameter 
+ ``` r
+tau1 <- -0.30
+tau2 <- -0.35
+```
+
+Model's estimation with a Survival Gumbel copula
+ ``` r
+eq1 <- ysel ~ x1 + x2 + x3 
+eq2 <- yobs ~ x1 + x2
+
+out2 <- BivGEV(list(eq1,eq2), data = dataSim, BivD = "G0", 
+       Model = "SampleSelGEV", tau.eq1 = tau1, tau.eq2 = tau2)
+summary(out2)
+```
