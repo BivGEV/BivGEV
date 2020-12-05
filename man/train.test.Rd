@@ -2,10 +2,10 @@
 \alias{train.test}
 
 \title{
-The function split the sample in training and test set
+The function split the sample in training and test set.
 }
 \description{
-The function split the sample in training and test set
+The function split the sample in training and test set.
 }
 \usage{
 train.test(data, perc = 0.75, seed = 100)
@@ -26,7 +26,7 @@ Setting the seed. 100 is the default value.
 \author{
 Raffaella Calabrese - \email{raffaella.calabrese@ed.ac.uk};
 Silvia Angela Osmetti - \email{silvia.osmetti@unicatt.it}; 
-Mantainer: Luca Zanin - \email{luca.zanin@studio.unibo.it};
+Maintainer: Luca Zanin - \email{luca.zanin@studio.unibo.it};
 }
 
 \seealso{

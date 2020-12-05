@@ -21,7 +21,7 @@ A fitted \code{BivGEV} object.
 \author{
 Raffaella Calabrese - \email{raffaella.calabrese@ed.ac.uk};
 Silvia Angela Osmetti - \email{silvia.osmetti@unicatt.it}; 
-Mantainer: Luca Zanin - \email{luca.zanin@studio.unibo.it};
+Maintainer: Luca Zanin - \email{luca.zanin@studio.unibo.it};
 }
 
 \seealso{

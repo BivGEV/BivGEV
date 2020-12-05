@@ -11,7 +11,8 @@ BivGEV function is a wrapper function from \code{GJRM} R package. It fits joint 
 \usage{
 BivGEV(formula, data = list(), Model = "BivGEV", 
 BivD = "N", rinit = 1, rmax = 100, iterlim = 100, tolsp = 1e-07, 
-parscale, tau.eq1 = -0.25, tau.eq2 = -0.25, gc.m=FALSE)
+parscale, tau.eq1 = -0.25, tau.eq2 = -0.25, gc.m=FALSE, 
+min.dn = 1e-40, min.pr = 1e-16, max.pr = 0.999999)
 }
 
 \arguments{
@@ -19,7 +20,7 @@ parscale, tau.eq1 = -0.25, tau.eq2 = -0.25, gc.m=FALSE)
 The formula will be a list of two equations.
 }
   \item{data}{
-The data frame that includes the variables of the model. 
+The data frame includes the variables of the model. 
 }
   \item{Model}{
 Possible choice are "BivGEV" (Bivariate Generalised Extreme Value) or "SampleSelGEV" (Sample Selection Generalised Extreme Value).
@@ -29,7 +30,7 @@ The possible typologies of bivariate error distribution employed are "N" (Gaussi
 }
 
   \item{rinit}{
-Starting trust region radius.
+Starting the trust-region radius.
 }
   \item{rmax}{
 Maximum allowed trust region radius.
@@ -46,7 +47,7 @@ Parscale is a scalar parameter. If the option is missing then any re-scaling is 
 }
 
   \item{tau.eq1}{
-Shape parameter of the GEV distribution for the first equation. 
+The shape parameter of the GEV distribution for the first equation. 
 }
   \item{tau.eq2}{
 Shape parameter of the GEV distribution for the second equation. 
@@ -54,6 +55,15 @@ Shape parameter of the GEV distribution for the second equation.
 
  \item{gc.m}{
 This option is useful when considering large data samples. If TRUE then the garbage collector is taken into account. 
+}
+
+ \item{min.dn}{The minimum threshold of densities during the model estimation process.
+}
+
+ \item{min.pr}{The minimum threshold of probabilities during the model estimation process.
+}
+
+ \item{max.pr}{The maximum threshold of probabilities during the model estimation process.
 }
 
 }

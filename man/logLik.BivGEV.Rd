@@ -2,7 +2,7 @@
 \alias{logLik.BivGEV}
 
 \title{
-Function extract the log-likelihood for a BivGEV model
+The function extracts the log-likelihood for a BivGEV model
 }
 \description{
 The function extract the log-likelihood for a \code{BivGEV} model.  
@@ -21,7 +21,7 @@ A fitted \code{BivGEV} object.
 \author{
 Raffaella Calabrese - \email{raffaella.calabrese@ed.ac.uk};
 Silvia Angela Osmetti - \email{silvia.osmetti@unicatt.it}; 
-Mantainer: Luca Zanin - \email{luca.zanin@studio.unibo.it};
+Maintainer: Luca Zanin - \email{luca.zanin@studio.unibo.it};
 }
 
 \seealso{

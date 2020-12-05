@@ -2,7 +2,7 @@
 \alias{BivGEV.fit}
 
 \title{
-This is a function that recall the optimization algorithm (internal function)
+This is a function that recalls the optimization algorithm (internal function)
 }
 \description{
 Internal function that recall the optimization function. %\code{BivGEV.fit} function is a wrapper from \code{SemiParBIV.fit()} in \code{GJRM}.
