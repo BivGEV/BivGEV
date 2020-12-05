@@ -57,15 +57,22 @@ resT <- teta.tr(VC, teta.st)
 teta.st <- resT$teta.st
 teta <- resT$teta
 
-p11 <- BiCDF(p1, p2, VC$nC, teta) #, VC$dof)
-p10 <- pmax(p1 - p11, epsilon)
-p01 <- pmax(p2 - p11, epsilon)
-p00 <- pmax(1 - p11 - p10 - p01, epsilon)
+p11 <- mm(BiCDF(p1, p2, VC$nC, teta), min.pr = VC$min.pr, max.pr = VC$max.pr)
+p10 <- mm(p1 - p11, min.pr = VC$min.pr, max.pr = VC$max.pr)
+p01 <- mm(p2 - p11, min.pr = VC$min.pr, max.pr = VC$max.pr)
+p00 <- mm(1 - p11 - p10 - p01, min.pr = VC$min.pr, max.pr = VC$max.pr)
+tot <- rowSums(cbind(p11, p10, p01, p00))
+p11 <- p11/tot
+p10 <- p10/tot
+p01 <- p01/tot
+p00 <- p00/tot
+
 l.par <- VC$weights * (respvec$y1.y2 * log(p11) + respvec$y1.cy2 *
         log(p10) + respvec$cy1.y2 * log(p01) + respvec$cy1.cy2 *
         log(p00))
 dH <- copgHs(p1, p2, eta1 = NULL, eta2 = NULL, teta, teta.st,
-      VC$BivD) #, VC$dof)
+      VC$BivD, min.dn = VC$min.dn, min.pr = VC$min.pr, max.pr = VC$max.pr)
+
     c.copula.be1 <- dH$c.copula.be1
     c.copula.be2 <- dH$c.copula.be2
     c.copula.theta <- dH$c.copula.theta

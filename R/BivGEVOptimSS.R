@@ -63,17 +63,18 @@ BivGEVOptimSS <- function(start.v, VC, respvec){
   teta <- resT$teta
   
   
-  p11 <- BiCDF(p1[VC$inde], p2, VC$nC, teta) #, VC$dof)
-  p10 <- pmax(p1[VC$inde] - p11, epsilon)
-  p0  <- pmax(1 - p1, epsilon)
-  
+  p11 <- mm(BiCDF(p1[VC$inde], p2, VC$nC, teta) , min.pr = VC$min.pr, max.pr = VC$max.pr)
+  p10 <- mm(p1[VC$inde] - p11, min.pr = VC$min.pr, max.pr = VC$max.pr)
+  p0 <- mm(1 - p1, min.pr = VC$min.pr, max.pr = VC$max.pr)  
+
   
   l.par1          <- respvec$cy1*log(p0) 
   l.par1[VC$inde] <- respvec$y1.y2*log(p11) + respvec$y1.cy2*log(p10) 
   l.par           <- VC$weights*l.par1 
   
   
-  dH <- copgHs(p1[VC$inde], p2, eta1=NULL, eta2=NULL, teta, teta.st, VC$BivD) #, VC$dof)
+  dH <- copgHs(p1[VC$inde], p2, eta1=NULL, eta2=NULL, teta, teta.st, VC$BivD, min.dn = VC$min.dn, min.pr = VC$min.pr, 
+        max.pr = VC$max.pr)
   
   c.copula.be1   <- dH$c.copula.be1
   c.copula.be2   <- dH$c.copula.be2
