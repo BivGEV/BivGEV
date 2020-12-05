@@ -57,13 +57,13 @@ Shape parameter of the GEV distribution for the second equation.
 This option is useful when considering large data samples. If TRUE then the garbage collector is taken into account. 
 }
 
- \item{min.dn}{The minimum threshold of densities during the model estimation process.
+ \item{min.dn}{The threshold (minimum) for densities during the model estimation process.
 }
 
- \item{min.pr}{The minimum threshold of probabilities during the model estimation process.
+ \item{min.pr}{The threshold (minimum) for probabilities during the model estimation process.
 }
 
- \item{max.pr}{The maximum threshold of probabilities during the model estimation process.
+ \item{max.pr}{The threshold (maximum) for probabilities during the model estimation process.
 }
 
 }
